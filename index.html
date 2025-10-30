@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultorio Dental - Chatbot Móvil</title>
+    <style>
+        /* Estilos generales optimizados para móviles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            flex: 1;
+        }
+        
+        /* Encabezado optimizado para móviles */
+        header {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        /* Sección de información optimizada para móviles */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-card h3 {
+            color: #1e90ff;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+        
+        .info-card ul {
+            list-style-type: none;
+        }
+        
+        .info-card li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+        }
+        
+        .info-card li:before {
+            content: "•";
+            color: #1e90ff;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        /* Chatbot optimizado para móviles */
+        .chatbot-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #1e90ff, #00bfff);
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 12px;
+            border-radius: 50%;
+            background: white;
+            padding: 4px;
+        }
+        
+        .chat-header h2 {
+            font-size: 1.2rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        
+        .user-message {
+            justify-content: flex-end;
+        }
+        
+        .bot-message {
+            justify-content: flex-start;
+        }
+        
+        .message-bubble {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .user-message .message-bubble {
+            background: #1e90ff;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message .message-bubble {
+            background: #e6f2ff;
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input-container {
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #eee;
+            flex-shrink: 0;
+        }
+        
+        .chat-input {
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        .chat-input input:focus {
+            border-color: #1e90ff;
+        }
+        
+        .chat-input button {
+            background: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chat-input button:hover {
+            background: #0077e6;
+        }
+        
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 0 0 0;
+            background: transparent;
+        }
+        
+        .quick-option {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 18px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: calc(50% - 8px);
+            text-align: center;
+        }
+        
+        .quick-option:hover {
+            background: #1e90ff;
+            color: white;
+            border-color: #1e90ff;
+        }
+        
+        /* Footer optimizado para móviles */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+        
+        /* Botón flotante para móviles */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .floating-button:hover {
+            background: #0077e6;
+            transform: scale(1.1);
+        }
+        
+        .chatbot-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 15px;
+        }
+        
+        .modal-content {
+            width: 100%;
+            max-width: 500px;
+            height: 80vh;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        /* Mejoras de usabilidad para móviles */
+        @media (max-width: 480px) {
+            .message-bubble {
+                max-width: 90%;
+            }
+            
+            .chat-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .quick-option {
+                min-width: 100%;
+            }
+        }
+        
+        /* Animaciones para una mejor experiencia móvil */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Estilos para la barra de desplazamiento en móviles */
+        .chat-messages::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #1e90ff;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🦷 Sonrisa Perfecta</div>
+            <p class="tagline">Tu salud dental es nuestra prioridad</p>
+        </header>
+        
+        <section class="info-section">
+            <div class="info-card">
+                <h3>Nuestros Servicios</h3>
+                <ul>
+                    <li>Limpieza dental profesional</li>
+                    <li>Blanqueamiento dental</li>
+                    <li>Ortodoncia invisible</li>
+                    <li>Implantes dentales</li>
+                    <li>Endodoncia</li>
+                    <li>Odontopediatría</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>Horario de Atención</h3>
+                <ul>
+                    <li>Lunes a Viernes: 8:00 AM - 7:00 PM</li>
+                    <li>Sábados: 9:00 AM - 2:00 PM</li>
+                    <li>Urgencias: 24/7</li>
+                    <li>Teléfono: (123) 456-7890</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Chatbot integrado para pantallas más grandes -->
+        <div class="chatbot-container" id="desktopChatbot">
+            <div class="chat-header">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDE0LjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4IDEuOTkgMCA1Ljk3IDEuMDkgNiAzLjA4LTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6Ii8+PC9zdmc+" alt="Asistente Dental">
+                <h2>Asistente Virtual</h2>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-bubble">
+                        ¡Hola! Soy tu asistente virtual. Estoy aquí para responder tus preguntas sobre servicios, horarios y consejos de salud dental.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="quick-options">
+                    <div class="quick-option" onclick="sendQuickMessage('¿Qué servicios ofrecen?')">Servicios</div>
+                    <div class="quick-option" onclick="sendQuickMessage('¿Cuál es su horario?')">Horario</div>
+                    <div class="quick-option" onclick="sendQuickMessage('Necesito una cita')">Solicitar cita</div>
+                    <div class="quick-option" onclick="sendQuickMessage('Consejos de cuidado dental')">Consejos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botón flotante para móviles -->
+    <button class="floating-button" id="floatingButton" onclick="openChatModal()">💬</button>
+    
+    <!-- Modal del chatbot para móviles -->
+    <div class="chatbot-modal" id="chatModal" style="display: none;">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeChatModal()">✕</button>
+            <div class="chat-header">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDE0LjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4IDEuOTkgMCA1Ljk3IDEuMDkgNiAzLjA4LTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6Ii8+PC9zdmc+" alt="Asistente Dental">
+                <h2>Asistente Virtual</h2>
+            </div>
+            
+            <div class="chat-messages" id="mobileChatMessages">
+                <div class="message bot-message">
+                    <div class="message-bubble">
+                        ¡Hola! Soy tu asistente virtual. Estoy aquí para responder tus preguntas sobre servicios, horarios y consejos de salud dental.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <input type="text" id="mobileUserInput" placeholder="Escribe tu mensaje..." onkeypress="handleMobileKeyPress(event)">
+                    <button onclick="sendMobileMessage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="quick-options">
+                    <div class="quick-option" onclick="sendMobileQuickMessage('¿Qué servicios ofrecen?')">Servicios</div>
+                    <div class="quick-option" onclick="sendMobileQuickMessage('¿Cuál es su horario?')">Horario</div>
+                    <div class="quick-option" onclick="sendMobileQuickMessage('Necesito una cita')">Solicitar cita</div>
+                    <div class="quick-option" onclick="sendMobileQuickMessage('Consejos de cuidado dental')">Consejos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Consultorio Dental Sonrisa Perfecta &copy; 2023</p>
+        <p>Cuidamos tu sonrisa con profesionalismo</p>
+    </footer>
+
+    <script>
+        // Base de conocimientos del chatbot
+        const knowledgeBase = {
+            "servicios": "Ofrecemos una amplia gama de servicios dentales: limpieza profesional, blanqueamiento, ortodoncia invisible, implantes dentales, endodoncia, odontopediatría y más. ¿Te interesa alguno en particular?",
+            "horario": "Nuestro horario de atención es de lunes a viernes de 8:00 AM a 7:00 PM, y los sábados de 9:00 AM a 2:00 PM. Para emergencias dentales, atendemos las 24 horas. ¿Necesitas programar una cita?",
+            "cita": "Para programar una cita, puedes llamarnos al (123) 456-7890 o enviarnos un mensaje por WhatsApp. También puedes visitarnos en nuestra clínica en Av. Principal #123. ¿Prefieres algún día u hora en particular?",
+            "consejos": "Para mantener una buena salud dental: cepíllate al menos 2 veces al día, usa hilo dental diariamente, visita al dentista cada 6 meses, limita el consumo de azúcar y usa protector bucal al hacer deporte. ¿Tienes alguna preocupación específica sobre tu salud dental?",
+            "blanqueamiento": "Nuestro tratamiento de blanqueamiento dental es seguro, efectivo y realizado por profesionales. Los resultados son visibles desde la primera sesión. El precio varía según el estado de tus dientes. ¿Te gustaría agendar una evaluación?",
+            "ortodoncia": "Ofrecemos ortodoncia tradicional y invisible. La ortodoncia invisible utiliza alineadores transparentes y removibles. El tratamiento dura entre 6 y 18 meses dependiendo de cada caso. ¿Te gustaría una consulta de evaluación?",
+            "implantes": "Los implantes dentales son la solución más moderna para reemplazar dientes perdidos. Son duraderos y se ven naturales. El proceso requiere varias visitas durante algunos meses. ¿Te gustaría más información?",
+            "urgencia": "Para emergencias dentales, estamos disponibles 24/7. Llámanos inmediatamente al (123) 456-7890. Si es un caso de dolor intenso, trauma dental o sangrado excesivo, ven directamente a nuestra clínica.",
+            "precio": "Los precios varían según el tratamiento necesario. Ofrecemos planes de pago flexibles y aceptamos la mayoría de seguros dentales. ¿Qué tratamiento te interesa para darte una cotización más precisa?",
+            "seguro": "Aceptamos la mayoría de seguros dentales. Trae tu póliza en tu primera visita y nosotros nos encargamos de verificar tu cobertura. ¿Tienes algún seguro en particular?"
+        };
+        
+        // Funciones para el chatbot de escritorio
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            addMessage(message, 'user', 'chatMessages');
+            userInput.value = '';
+            
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response, 'bot', 'chatMessages');
+            }, 1000);
+        }
+        
+        function sendQuickMessage(message) {
+            document.getElementById('userInput').value = message;
+            sendMessage();
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        // Funciones para el chatbot móvil
+        function openChatModal() {
+            document.getElementById('chatModal').style.display = 'flex';
+        }
+        
+        function closeChatModal() {
+            document.getElementById('chatModal').style.display = 'none';
+        }
+        
+        function sendMobileMessage() {
+            const userInput = document.getElementById('mobileUserInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            addMessage(message, 'user', 'mobileChatMessages');
+            userInput.value = '';
+            
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response, 'bot', 'mobileChatMessages');
+            }, 1000);
+        }
+        
+        function sendMobileQuickMessage(message) {
+            document.getElementById('mobileUserInput').value = message;
+            sendMobileMessage();
+        }
+        
+        function handleMobileKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMobileMessage();
+            }
+        }
+        
+        // Función genérica para agregar mensajes
+        function addMessage(text, sender, containerId) {
+            const chatMessages = document.getElementById(containerId);
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.textContent = text;
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll al final
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Función para obtener respuesta del bot
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Buscar coincidencias en la base de conocimientos
+            for (const [key, value] of Object.entries(knowledgeBase)) {
+                if (lowerMessage.includes(key)) {
+                    return value;
+                }
+            }
+            
+            // Respuestas por defecto
+            if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') || lowerMessage.includes('buenas tardes')) {
+                return "¡Hola! Me da gusto saludarte. ¿En qué puedo ayudarte hoy?";
+            }
+            
+            if (lowerMessage.includes('gracias')) {
+                return "¡De nada! Estoy aquí para ayudarte. ¿Hay algo más en lo que pueda asistirte?";
+            }
+            
+            if (lowerMessage.includes('adiós') || lowerMessage.includes('chao') || lowerMessage.includes('hasta luego')) {
+                return "¡Hasta luego! Recuerda que tu salud dental es importante. No dudes en contactarnos si necesitas ayuda.";
+            }
+            
+            // Respuesta por defecto
+            return "Gracias por tu mensaje. Como asistente virtual, puedo ayudarte con información sobre nuestros servicios, horarios, consejos de salud dental y programación de citas. ¿En qué específicamente puedo asistirte?";
+        }
+        
+        // Detectar si es un dispositivo móvil y ajustar la interfaz
+        function detectMobile() {
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // Es un dispositivo móvil
+                document.getElementById('desktopChatbot').style.display = 'none';
+                document.getElementById('floatingButton').style.display = 'flex';
+            } else {
+                // Es una computadora
+                document.getElementById('desktopChatbot').style.display = 'flex';
+                document.getElementById('floatingButton').style.display = 'none';
+            }
+        }
+        
+        // Inicializar cuando se carga la página
+        window.onload = function() {
+            detectMobile();
+            
+            // Agregar mensaje de bienvenida después de un breve retraso
+            setTimeout(() => {
+                addMessage("Puedes escribirme tu pregunta o seleccionar una de las opciones rápidas.", 'bot', 'chatMessages');
+                addMessage("Puedes escribirme tu pregunta o seleccionar una de las opciones rápidas.", 'bot', 'mobileChatMessages');
+            }, 1500);
+        };
+    </script>
+</body>
+</html>
